@@ -1,6 +1,6 @@
 class Compressor:
-    def compress(self, _bytes):
+    def compress(self, _bytes, **kwargs):
         raise NotImplementedError
 
-    def decompress(self, _bytes):
+    def decompress(self, _bytes, **kwargs):
         raise NotImplementedError

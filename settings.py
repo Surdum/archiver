@@ -1,4 +1,4 @@
 from compression import *
 
-HEADER = b'BGA'
-DEFAULT_ALGORITHM = RLE
+HEADER = b'BGA\x00'
+DEFAULT_ALGORITHM = Huffman

@@ -16,6 +16,10 @@ def int_to_bytes(number: int, signed=False) -> bytes:
     return number.to_bytes(length=(8 + (number + (number < 0)).bit_length()) // 8, byteorder='big', signed=signed)
 
 
+def int_to_byte(number: int, signed=False) -> bytes:
+    return number.to_bytes(length=1, byteorder='big', signed=signed)
+
+
 def int_from_bytes(binary_data: bytes, signed=False) -> int:
     return int.from_bytes(binary_data, byteorder='big', signed=signed)
 

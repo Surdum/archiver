@@ -2,8 +2,9 @@ from compression.base import Compressor
 
 
 class RLE(Compressor):
-    def compress(self, _bytes):
-        from utils import int_to_bytes
+    def compress(self, _bytes, **kwargs):
+        from utils import int_to_byte
+
         sign = _bytes.read(1)
         number = 1
         alone_stack = []
@@ -14,7 +15,7 @@ class RLE(Compressor):
             if b == sign:
                 number += 1
                 if number > 1 and alone_stack:
-                    yield int_to_bytes(-len(alone_stack), signed=True)
+                    yield int_to_byte(-len(alone_stack), signed=True)
                     while alone_stack:
                         yield alone_stack.pop(0)
             elif b != sign and number == 1:
@@ -22,24 +23,24 @@ class RLE(Compressor):
                 sign = b
                 number = 1
             else:
-                yield int_to_bytes(number, signed=True) + sign
+                yield int_to_byte(number, signed=True) + sign
                 number = 1
                 sign = b
             if number == 127:
-                yield int_to_bytes(number, signed=True) + sign
+                yield int_to_byte(number, signed=True) + sign
                 number = 0
             if len(alone_stack) == 127:
-                yield int_to_bytes(-len(alone_stack), signed=True)
+                yield int_to_byte(-len(alone_stack), signed=True)
                 while alone_stack:
                     yield alone_stack.pop(0)
         if alone_stack:
-            yield int_to_bytes(-len(alone_stack), signed=True)
+            yield int_to_byte(-len(alone_stack), signed=True)
             while alone_stack:
                 yield alone_stack.pop(0)
-        yield int_to_bytes(number, signed=True) + sign
+        yield int_to_byte(number, signed=True) + sign
         return b''
 
-    def decompress(self, _bytes):
+    def decompress(self, _bytes, **kwargs):
         from utils import int_from_bytes
         # init settings here
         yield 'not eof'
