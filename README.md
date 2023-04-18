@@ -1,6 +1,6 @@
 # Archiver
 
-This is a research project for knowlegdes about compression algorithms.
+This is a research project for new knowledges about compression algorithms.
 
 Installing:
 
