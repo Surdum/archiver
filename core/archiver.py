@@ -3,15 +3,27 @@ from utils import *
 import os
 
 
-def pack(input_paths, output_path, compress_algo=None):
+def pack(input_paths: list, output_path, compress_algo=None):
+    dir_files = set()
+    dirs = []
     for path in input_paths:
         if not os.path.exists(path):
             raise FileNotFoundError(path)
-        if len(path) > 255:
-            raise ValueError(f'{path} is too len: {len(path)}')
+        if os.path.isdir(path):
+            dirs.append(path)
+            for d, subdir, files in os.walk(path):
+                for filepath in files:
+                    dir_files.add(os.path.join(d, filepath))
+    for elem in dir_files:
+        if elem not in input_paths:
+            input_paths.append(elem)
+    for d in dirs:
+        input_paths.remove(d)
     if os.path.exists(output_path):
         print('out file exists')
-
+    for path in input_paths:
+        if len(path) > 255:
+            raise ValueError(f'{path} is too len: {len(path)}')
     if compress_algo is None:
         compress_algo = DEFAULT_ALGORITHM
     compressor = compress_algo()
