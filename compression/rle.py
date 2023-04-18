@@ -43,8 +43,6 @@ class RLE(Compressor):
     def decompress(self, _bytes, **kwargs):
         from utils import int_from_bytes
         # init settings here
-        yield 'not eof'
-
         while True:
             number = int_from_bytes(_bytes.read(1), signed=True)
             if not number:
